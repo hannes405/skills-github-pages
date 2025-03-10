@@ -1,0 +1,64 @@
+document.addEventListener("DOMContentLoaded", () => {
+    const gameContainer = document.createElement("div");
+    gameContainer.classList.add("game-container");
+    document.body.appendChild(gameContainer);
+
+    const player = document.createElement("div");
+    player.classList.add("player");
+    gameContainer.appendChild(player);
+
+    const obstacle = document.createElement("div");
+    obstacle.classList.add("obstacle");
+    gameContainer.appendChild(obstacle);
+
+    let jumping = false;
+
+    document.addEventListener("keydown", (event) => {
+        if (event.code === "Space" && !jumping) {
+            jumping = true;
+            player.style.transition = "bottom 0.3s";
+            player.style.bottom = "80px";
+            setTimeout(() => {
+                player.style.bottom = "0px";
+                setTimeout(() => jumping = false, 300);
+            }, 300);
+        }
+    });
+
+    // Styles via JavaScript
+    const style = document.createElement("style");
+    style.innerHTML = `
+        body { text-align: center; font-family: Arial, sans-serif; }
+        .game-container {
+            position: relative;
+            width: 600px;
+            height: 200px;
+            background-color: lightblue;
+            border: 2px solid black;
+            margin: auto;
+            overflow: hidden;
+        }
+        .player {
+            width: 30px;
+            height: 30px;
+            background-color: red;
+            position: absolute;
+            bottom: 0;
+            left: 50px;
+        }
+        .obstacle {
+            width: 20px;
+            height: 20px;
+            background-color: black;
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            animation: moveObstacle 2s linear infinite;
+        }
+        @keyframes moveObstacle {
+            from { right: 0; }
+            to { right: 100%; }
+        }
+    `;
+    document.head.appendChild(style);
+});
